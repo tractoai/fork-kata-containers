@@ -259,9 +259,9 @@ get_package_version_from_kata_yaml()
     local yq_version
     local yq_args
 
-	typeset -r yq=$(command -v yq || command -v "${GOPATH}/bin/yq" || echo "${GOPATH}/bin/yq")
+	typeset -r yq=$(command -v yq || command -v "${GOPATH}/bin/yq" || echo "yq")
 	if [ ! -f "$yq" ]; then
-		source "$yq_file"
+		INSTALL_IN_GOPATH=false "$yq_file"
 	fi
 
     yq_version=$($yq -V)
