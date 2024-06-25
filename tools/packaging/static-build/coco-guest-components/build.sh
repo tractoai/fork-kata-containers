@@ -4,6 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+[ -z "${DEBUG}" ] || set -x
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -51,6 +52,7 @@ esac
 
 docker run --rm -i -v "${repo_root_dir}:${repo_root_dir}" \
 	-w "${PWD}" \
+	--env DEBUG="${DEBUG:-}" \
 	--env DESTDIR="${DESTDIR}" \
 	--env TEE_PLATFORM=${TEE_PLATFORM:+"all"} \
 	--env RESOURCE_PROVIDER=${RESOURCE_PROVIDER:-} \

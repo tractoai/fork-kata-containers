@@ -4,6 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+[ -z "${DEBUG}" ] || set -x
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -57,6 +58,7 @@ fi
 [[ "${CROSS_BUILD}" == "true" && ${ARCH} != "s390x" ]] && container_image="messense/rust-musl-cross:${GCC_ARCH}-musl" && CC=${GCC_ARCH}-unknown-linux-musl-gcc
 
 docker run --rm -i -v "${repo_root_dir}:${repo_root_dir}" \
+	--env DEBUG="${DEBUG:-}" \
 	--env CROSS_BUILD=${CROSS_BUILD} \
 	--env ARCH=${ARCH} \
 	--env CC="${CC}" \
@@ -66,6 +68,7 @@ docker run --rm -i -v "${repo_root_dir}:${repo_root_dir}" \
 	bash -c "make clean-generated-files && make PREFIX=${PREFIX} QEMUCMD=qemu-system-${arch}"
 
 docker run --rm -i -v "${repo_root_dir}:${repo_root_dir}" \
+	--env DEBUG="${DEBUG:-}" \
 	--env CROSS_BUILD=${CROSS_BUILD} \
         --env ARCH=${ARCH} \
         --env CC="${CC}" \
@@ -78,12 +81,14 @@ docker run --rm -i -v "${repo_root_dir}:${repo_root_dir}" \
 
 docker run --rm -i -v "${repo_root_dir}:${repo_root_dir}" \
 	-w "${repo_root_dir}/src/runtime" \
+	--env DEBUG="${DEBUG:-}" \
 	--user "$(id -u)":"$(id -g)" \
 	"${container_image}" \
 	bash -c "make clean-generated-files && make PREFIX=${PREFIX} QEMUCMD=qemu-system-${arch} ${EXTRA_OPTS}"
 
 docker run --rm -i -v "${repo_root_dir}:${repo_root_dir}" \
 	-w "${repo_root_dir}/src/runtime" \
+	--env DEBUG="${DEBUG:-}" \
 	--user "$(id -u)":"$(id -g)" \
 	"${container_image}" \
 	bash -c "make PREFIX="${PREFIX}" DESTDIR="${DESTDIR}" ${EXTRA_OPTS} install"

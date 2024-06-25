@@ -4,6 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+[ -z "${DEBUG}" ] || set -x
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -32,6 +33,7 @@ docker run --rm -i -v "${repo_root_dir}:${repo_root_dir}" \
 	--env GPERF_VERSION=${GPERF_VERSION} \
 	--env GPERF_URL=${GPERF_URL} \
 	-w "${repo_root_dir}" \
+	--env DEBUG="${DEBUG:-}" \
 	--user "$(id -u)":"$(id -g)" \
 	"${container_image}" \
 	bash -c "${tools_builder} ${tool}"
