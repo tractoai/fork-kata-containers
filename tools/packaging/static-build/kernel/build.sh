@@ -4,6 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+[ -z "${DEBUG}" ] || set -x
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -50,18 +51,21 @@ pull_from_registry ${container_image} || \
 
 docker run --rm -i -v "${repo_root_dir}:${repo_root_dir}" \
 	-w "${PWD}" \
+	--env DEBUG="${DEBUG:-}" \
 	--user "$(id -u)":"$(id -g)" \
 	"${container_image}" \
 	bash -c "${kernel_builder} ${kernel_builder_args} setup"
 
 docker run --rm -i -v "${repo_root_dir}:${repo_root_dir}" \
 	-w "${PWD}" \
+	--env DEBUG="${DEBUG:-}" \
 	--user "$(id -u)":"$(id -g)" \
 	"${container_image}" \
 	bash -c "${kernel_builder} ${kernel_builder_args} build"
 
 docker run --rm -i -v "${repo_root_dir}:${repo_root_dir}" \
 	-w "${PWD}" \
+	--env DEBUG="${DEBUG:-}" \
 	--env DESTDIR="${DESTDIR}" --env PREFIX="${PREFIX}" \
 	--user "$(id -u)":"$(id -g)" \
 	"${container_image}" \
@@ -69,6 +73,7 @@ docker run --rm -i -v "${repo_root_dir}:${repo_root_dir}" \
 
 docker run --rm -i -v "${repo_root_dir}:${repo_root_dir}" \
 	-w "${PWD}" \
+	--env DEBUG="${DEBUG:-}" \
 	--env DESTDIR="${DESTDIR}" --env PREFIX="${PREFIX}" \
 	--env USER="${USER}" \
 	--user "$(id -u)":"$(id -g)" \

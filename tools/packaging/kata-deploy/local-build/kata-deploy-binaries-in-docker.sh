@@ -107,6 +107,7 @@ docker run \
 	-v $HOME/.docker:/root/.docker \
 	-v /var/run/docker.sock:/var/run/docker.sock \
 	-v "${kata_dir}:${kata_dir}" \
+	--env DEBUG="${DEBUG:-}" \
 	--env USER=${USER} \
 	--env ARTEFACT_REGISTRY="${ARTEFACT_REGISTRY}" \
 	--env ARTEFACT_REPOSITORY="${ARTEFACT_REPOSITORY}" \

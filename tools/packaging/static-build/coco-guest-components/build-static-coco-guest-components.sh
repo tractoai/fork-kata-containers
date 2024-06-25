@@ -4,6 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+[ -z "${DEBUG}" ] || set -x
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -27,6 +28,9 @@ build_coco_guest_components_from_source() {
 
 	git fetch --depth=1 origin "${coco_guest_components_version}"
 	git checkout FETCH_HEAD
+
+	# guest-components build "debug" flavour if DEBUG is set
+	unset DEBUG
 
 	DESTDIR="${DESTDIR}/usr/local/bin" TEE_PLATFORM=${TEE_PLATFORM} make build
 	strip "target/${RUST_ARCH}-unknown-linux-${LIBC}/release/confidential-data-hub"

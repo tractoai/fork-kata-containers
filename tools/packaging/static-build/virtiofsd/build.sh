@@ -4,6 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+[ -z "${DEBUG}" ] || set -x
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -60,6 +61,7 @@ pull_from_registry ${container_image} || \
 
 docker run --rm -i -v "${repo_root_dir}:${repo_root_dir}" \
 	-w "${PWD}" \
+	--env DEBUG="${DEBUG:-}" \
 	--env USE_CACHE="${USE_CACHE:-"yes"}" \
 	--env DESTDIR="${DESTDIR}" \
 	--env PREFIX="${PREFIX}" \
