@@ -4,6 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+[ -z "${DEBUG}" ] || set -x
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -62,6 +63,7 @@ container_image="${QEMU_CONTAINER_BUILDER:-$(get_qemu_image_name)}"
 "${container_engine}" run \
 	--rm \
 	-i \
+	--env DEBUG="${DEBUG:-}" \
 	--env BUILD_SUFFIX="${build_suffix}" \
 	--env PKGVERSION="${PKGVERSION}" \
 	--env QEMU_DESTDIR="${qemu_destdir}" \
