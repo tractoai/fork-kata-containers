@@ -23,18 +23,18 @@ virtiofsd_zip="${virtiofsd_zip:-}"
 [ -n "$virtiofsd_repo" ] || die "failed to get virtiofsd repo"
 [ -n "$virtiofsd_version" ] || die "failed to get virtiofsd version"
 
-[ -d "virtiofsd" ] && rm -r virtiofsd
+[ -d "virtiofsd" ] && rm -rf virtiofsd
 
 pull_virtiofsd_released_binary() {
-	if [ -z "${virtiofsd_zip}" ]; then
-		info "failed to get virtiofsd binary URL"
-		return 1
-	fi
+  if [ -z "${virtiofsd_zip}" ]; then
+    info "failed to get virtiofsd binary URL"
+    return 1
+  fi
 
 	if [ "${ARCH}" != "x86_64" ]; then
 		info "Only x86_64 binaries are distributed as part of the virtiofsd releases" && return 1
 	fi
-
+	[ "${USE_CACHE:-"yes"}" != "yes" ] && return 1
 	info "Download virtiofsd version: ${virtiofsd_version}"
 
 	mkdir -p virtiofsd
@@ -53,7 +53,7 @@ build_virtiofsd_from_source() {
 	echo "build viriofsd from source"
 	. /etc/profile.d/rust.sh
 
-	git clone --depth 1 --branch main ${virtiofsd_repo} virtiofsd
+	git clone --depth 1 --branch ${virtiofsd_version} ${virtiofsd_repo} virtiofsd
 	pushd virtiofsd
 
 	git reset --hard ${virtiofsd_version}
