@@ -36,7 +36,7 @@ build_initrd() {
 	info "Build initrd"
 	info "initrd os: $os_name"
 	info "initrd os version: $os_version"
-	make initrd \
+	make invalidate-rootfs initrd \
 		VARIANT="${image_initrd_suffix}" \
 		DISTRO="$os_name" \
 		DEBUG="${DEBUG:-}" \
@@ -47,6 +47,7 @@ build_initrd() {
 		AGENT_INIT="${AGENT_INIT:-no}" \
 		AGENT_POLICY="${AGENT_POLICY:-}" \
 		PULL_TYPE="${PULL_TYPE:-default}" \
+		ARTEFACT_VERSION="${artefact_version}" \
 		COCO_GUEST_COMPONENTS_TARBALL="${COCO_GUEST_COMPONENTS_TARBALL:-}" \
 		PAUSE_IMAGE_TARBALL="${PAUSE_IMAGE_TARBALL:-}"
 
@@ -66,7 +67,7 @@ build_image() {
 	info "Build image"
 	info "image os: $os_name"
 	info "image os version: $os_version"
-	make image \
+	make invalidate-rootfs image \
 		VARIANT="${image_initrd_suffix}" \
 		DISTRO="${os_name}" \
 		DEBUG="${DEBUG:-}" \
@@ -76,6 +77,7 @@ build_image() {
 		AGENT_TARBALL="${AGENT_TARBALL}" \
 		AGENT_POLICY="${AGENT_POLICY:-}" \
 		PULL_TYPE="${PULL_TYPE:-default}" \
+		ARTEFACT_VERSION="${artefact_version}" \
 		COCO_GUEST_COMPONENTS_TARBALL="${COCO_GUEST_COMPONENTS_TARBALL:-}" \
 		PAUSE_IMAGE_TARBALL="${PAUSE_IMAGE_TARBALL:-}"
 
@@ -110,6 +112,7 @@ Options:
  --prefix=\${prefix}
  --destdir=\${destdir}
  --image_initrd_suffix=\${image_initrd_suffix}
+ --artefact_version=\${artefact_version}
 EOF
 
 	exit "${return_code}"
@@ -121,6 +124,7 @@ main() {
 	prefix="/opt/kata"
 	image_suffix=""
 	image_initrd_suffix=""
+	artefact_version=""
 	builddir="${PWD}"
 	while getopts "h-:" opt; do
 		case "$opt" in
@@ -140,6 +144,9 @@ main() {
 				;;
 			image_initrd_suffix=*)
 				image_initrd_suffix=${OPTARG#*=}
+				;;
+			artefact_version=*)
+				artefact_version=${OPTARG#*=}
 				;;
 			prefix=*)
 				prefix=${OPTARG#*=}
