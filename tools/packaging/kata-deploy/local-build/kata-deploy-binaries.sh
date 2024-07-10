@@ -60,6 +60,8 @@ destdir="${workdir}/kata-static"
 
 default_binary_permissions='0744'
 
+trap "die terminated" TERM INT
+
 die() {
 	msg="$*"
 	echo "ERROR: ${msg}" >&2
