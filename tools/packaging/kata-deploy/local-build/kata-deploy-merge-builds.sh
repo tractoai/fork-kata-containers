@@ -10,6 +10,8 @@ set -o nounset
 set -o pipefail
 set -o errtrace
 
+export XZ_OPT=${XZ_OPT-"-T0"}  # use parallel compression
+
 kata_build_dir=${1:-build}
 kata_versions_yaml_file=${2:-""}
 
