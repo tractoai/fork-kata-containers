@@ -966,6 +966,7 @@ func newQemuHypervisorConfig(h hypervisor) (vc.HypervisorConfig, error) {
 		HugePages:                h.HugePages,
 		IOMMU:                    h.IOMMU,
 		IOMMUPlatform:            h.getIOMMUPlatform(),
+		NUMANodes:                h.defaultNUMANodes(),
 		FileBackedMemRootDir:     h.FileBackedMemRootDir,
 		FileBackedMemRootList:    h.FileBackedMemRootList,
 		Debug:                    h.Debug,
