@@ -20,7 +20,7 @@ source "${cidir}/common.bash"
 # set GO111MODULE to "auto" to enable module-aware mode only when
 # a go.mod file is present in the current directory.
 export GO111MODULE="auto"
-export test_path="${test_path:-github.com/kata-containers/kata-containers/tests}"
+export test_path="${test_path:-github.com/koct9i/kata-containers/tests}"
 export test_dir="${GOPATH}/src/${test_path}"
 
 # List of files to delete on exit

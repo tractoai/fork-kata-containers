@@ -18,6 +18,7 @@ concurrency:
 
 jobs:
   add-pr-size-label:
+    if: secrets.KATA_GITHUB_ACTIONS_PR_SIZE_TOKEN != ''
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout code
