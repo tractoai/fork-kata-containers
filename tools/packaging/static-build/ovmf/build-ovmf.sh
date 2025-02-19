@@ -5,6 +5,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+[ -z "${DEBUG}" ] || set -x
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -39,7 +40,7 @@ pushd $build_root
 git clone --single-branch --depth 1 -b "${ovmf_version}" "${ovmf_repo}"
 cd "${ovmf_dir}"
 git submodule init
-git submodule update
+git submodule update --depth 1
 
 info "Using BaseTools make target"
 make -C BaseTools/
