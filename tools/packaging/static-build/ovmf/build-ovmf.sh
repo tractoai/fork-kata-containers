@@ -5,6 +5,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+[ -z "${DEBUG}" ] || set -x
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -42,7 +43,7 @@ cd "${ovmf_dir}"
 # Reference: https://github.com/tianocore/edk2/pull/6402
 sed -i -e "s|https://github.com/Zeex/subhook.git|https://github.com/tianocore/edk2-subhook.git|g" .gitmodules
 git submodule init
-git submodule update
+git submodule update --depth 1
 
 info "Using BaseTools make target"
 make -C BaseTools/
