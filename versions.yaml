@@ -194,7 +194,7 @@ assets:
   kernel:
     description: "Linux kernel optimised for virtual machines"
     url: "https://cdn.kernel.org/pub/linux/kernel/v6.x/"
-    version: "v6.1.62"
+    version: "v6.1.131"
     confidential:
       description: "Linux kernel with x86_64 TEEs (SEV, SNP, and TDX) support"
       url: "https://cdn.kernel.org/pub/linux/kernel/v6.x/"
@@ -208,7 +208,7 @@ assets:
   kernel-dragonball-experimental:
     description: "Linux kernel with Dragonball VMM optimizations like upcall"
     url: "https://cdn.kernel.org/pub/linux/kernel/v5.x/"
-    version: "v6.1.62"
+    version: "v6.1.131"
 
 externals:
   description: "Third-party projects used by the system"
