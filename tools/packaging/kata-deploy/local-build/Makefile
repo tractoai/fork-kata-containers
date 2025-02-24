@@ -60,7 +60,7 @@ define DUMMY
 endef
 
 kata-tarball: | all-base-tarballs
- 	${MAKE} -f $(MK_PATH) merge-builds
+	${MAKE} -f $(MK_PATH) merge-builds
 
 copy-scripts-for-the-agent-build:
 	${MK_DIR}/kata-deploy-copy-libseccomp-installer.sh "agent"
