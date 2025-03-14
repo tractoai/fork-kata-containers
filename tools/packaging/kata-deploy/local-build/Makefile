@@ -54,19 +54,16 @@ define BUILD
 	$(MK_DIR)/kata-deploy-binaries-in-docker.sh $(if $(V),,-s) --build=$1
 endef
 
-kata-tarball: | all-base-tarballs-parallel merge-builds
+kata-tarball: | all-base-tarballs
+	${MAKE} -f $(MK_PATH) merge-builds
 
 copy-scripts-for-the-agent-build:
 	${MK_DIR}/kata-deploy-copy-libseccomp-installer.sh
 
-all-base-tarballs-parallel:
-	${MAKE} -f $(MK_PATH) all-base-tarballs -j $(shell nproc) V=
-
 all-base-tarballs: ${BASE_TARBALLS} base-serial-tarballs
 
 base-serial-tarballs:
-	${MAKE} -f $(MK_PATH) -j 1 V= \
-	${BASE_SERIAL_TARBALLS}
+	${MAKE} -f $(MK_PATH) -j 1 V= ${BASE_SERIAL_TARBALLS}
 
 %-tarball-build:
 	$(call BUILD,$*)
