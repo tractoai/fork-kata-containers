@@ -352,6 +352,10 @@ setup_loop_device() {
 	partprobe -s "${device}" > /dev/null
 	# Poll for the block device p1
 	for _ in $(seq 1 5); do
+		for part in $(find "/sys/class/block/${device##*/}/" -maxdepth 1 -name "${device##*/}p*" -printf "%f\n") ; do
+		    local majmin=$(cat "/sys/class/block/${part}/dev")
+		    mknod "/dev/${part}" "b" "${majmin%:*}" "${majmin#*:}"
+		done
 		if [ -b "${device}p1" ]; then
 			echo "${device}"
 			return 0
