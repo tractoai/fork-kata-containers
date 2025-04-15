@@ -54,7 +54,7 @@ build_virtiofsd_from_source() {
 	echo "build viriofsd from source"
 	. /etc/profile.d/rust.sh
 
-	git clone --depth 1 --branch ${virtiofsd_version} ${virtiofsd_repo} virtiofsd
+	git clone --branch main ${virtiofsd_repo} virtiofsd
 	pushd virtiofsd
 
 	git reset --hard ${virtiofsd_version}
